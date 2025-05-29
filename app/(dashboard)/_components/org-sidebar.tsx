@@ -2,16 +2,15 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Poppins } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { OrganizationSwitcher } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, Star } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
+import { Poppins } from 'next/font/google';
 
 const font = Poppins({
-  subsets: ['latin'],
-  weight: ['600'],
+  weight: '600',
 });
 
 export const OrgSidebar = () => {
