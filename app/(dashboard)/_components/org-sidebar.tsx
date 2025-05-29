@@ -7,11 +7,6 @@ import { OrganizationSwitcher } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, Star } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { Poppins } from 'next/font/google';
-
-const font = Poppins({
-  weight: '600',
-});
 
 export const OrgSidebar = () => {
   const searchParams = useSearchParams();
@@ -22,7 +17,7 @@ export const OrgSidebar = () => {
       <Link href="/">
         <div className="flex items-center gap-x-2">
           <Image src="/current_logo.svg" alt="Logo" height={60} width={60} />
-          <span className={cn('font-semibold text-2xl', font.className)}>Board</span>
+          <span className={cn('font-semibold text-2xl')}>Board</span>
         </div>
       </Link>
       <OrganizationSwitcher
