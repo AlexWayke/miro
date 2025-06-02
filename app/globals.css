@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,10 +43,9 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-
 html,
 body,
-:root{
+:root {
   height: 100%;
   width: 100%;
 }
@@ -127,4 +126,8 @@ body,
   body {
     @apply bg-background text-foreground;
   }
+}
+
+button {
+  cursor: pointer;
 }

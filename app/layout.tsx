@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
 import { ConvexClientProvider } from '@/providers/convex-client-provider';
+import { ModalProvider } from '@/providers/modal-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ConvexClientProvider>
           <Toaster />
+          <ModalProvider />
           {children}
         </ConvexClientProvider>
       </body>
