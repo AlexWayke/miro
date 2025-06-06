@@ -1,19 +1,8 @@
-import { Geist, Geist_Mono } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
 import { ConvexClientProvider } from '@/providers/convex-client-provider';
 import { ModalProvider } from '@/providers/modal-provider';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export default function RootLayout({
   children,
@@ -22,7 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`antialiased`}>
         <ConvexClientProvider>
           <Toaster />
           <ModalProvider />

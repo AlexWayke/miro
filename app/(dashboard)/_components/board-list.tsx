@@ -9,22 +9,24 @@ import { EmptyFavorites } from './empty-favorites';
 import { EmptySearch } from './empty-search';
 import { BoardCard } from './board-card';
 import { NewBoardButton } from './new-board-button';
+import { use } from 'react';
 
 interface BoardListProps {
   orgId: string;
-  query: {
+  query: Promise<{
     search?: string;
     favorites?: string;
-  };
+  }>;
 }
 
 export const BoardList = ({ orgId, query }: BoardListProps) => {
-  const data = useQuery(api.boards.get, { orgId });
+  const queryFill = use(query);
+  const data = useQuery(api.boards.get, { orgId, ...queryFill });
 
   if (data === undefined) {
     return (
       <div>
-        <h2 className="text-3xl">{query.favorites ? 'Favorite boards' : 'Team boards'}</h2>
+        <h2 className="text-3xl">{queryFill.favorites ? 'Favorite boards' : 'Team boards'}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">
           <NewBoardButton orgId={''} />
           <BoardCard.Skeleton />
@@ -35,11 +37,11 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
     );
   }
 
-  if (!data?.length && query.search) {
+  if (!data?.length && queryFill.search) {
     return <EmptySearch />;
   }
 
-  if (!data?.length && query.favorites) {
+  if (!data?.length && queryFill.favorites) {
     return <EmptyFavorites />;
   }
 
@@ -49,7 +51,7 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
 
   return (
     <div>
-      <h2 className="text-3xl">{query.favorites ? 'Favorite boards' : 'Team boards'}</h2>
+      <h2 className="text-3xl">{queryFill.favorites ? 'Favorite boards' : 'Team boards'}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">
         <NewBoardButton orgId={orgId} />
         {data?.map((board) => (
@@ -62,7 +64,7 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
             authorName={board.authorName}
             createdAt={board._creationTime}
             orgId={board.orgId}
-            isFavorite={false}
+            isFavorite={board.isFavorite}
           />
         ))}
       </div>
