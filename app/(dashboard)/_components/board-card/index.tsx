@@ -26,7 +26,7 @@ interface BoardCardProps {
 }
 
 export const BoardCard = ({
-  key,
+  // key,
   id,
   title,
   imageUrl,
