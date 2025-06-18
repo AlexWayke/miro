@@ -1,6 +1,7 @@
 'use client';
 
 import { useOther } from '@liveblocks/react';
+import { MousePointer2 } from 'lucide-react';
 import { memo } from 'react';
 
 interface CursorProps {
@@ -17,7 +18,19 @@ export const Cursor = memo(({ connectionId }: CursorProps) => {
 
   const { x, y } = cursor;
 
-  return <p></p>;
+  return (
+    <foreignObject
+      style={{ transform: `translateX(${x}px) translateY(${y}px)` }}
+      height={50}
+      width={name.length * 10 + 24}
+      className="relative drop-shadow-md"
+    >
+      <MousePointer2 className="h-5 w-5" />
+      <div className="absolute left-5 px-1.5 py-0.5 tounded-md text-xs font-semibold text-black">
+        {name}
+      </div>
+    </foreignObject>
+  );
 });
 
 Cursor.displayName = 'Cursor';

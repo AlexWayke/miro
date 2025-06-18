@@ -9,7 +9,6 @@ const MAX_SHOWN_USERS = 2;
 export const Participants = () => {
   const users = useOthers();
   const currentUser = useSelf();
-  console.log(currentUser);
   const hasMoreUsers = users.length > MAX_SHOWN_USERS;
 
   return (
@@ -20,13 +19,13 @@ export const Participants = () => {
             key={connectionId}
             src={info?.picture}
             name={info?.name}
-            fallback={info.info?.name?.[0] || 'T'}
+            fallback={info.name?.[0] || 'T'}
           />
         ))}
 
         {currentUser && (
           <UserAvatar
-            src={currentUser.info.info?.picture}
+            src={currentUser.info?.picture}
             name={`${currentUser.info?.name} (you)`}
             fallback={currentUser.info?.name?.[0]}
           />
