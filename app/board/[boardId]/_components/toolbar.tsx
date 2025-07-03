@@ -47,37 +47,37 @@ export const Toolbar = ({
           label="Text"
           icon={Type}
           isActive={
-            canvasState.mode === CanvasMode.Inseting && canvasState.layerType === LayerType.Text
+            canvasState.mode === CanvasMode.Inserting && canvasState.layerType === LayerType.Text
           }
-          onClick={() => setCanvasState({ mode: CanvasMode.Inseting, layerType: LayerType.Text })}
+          onClick={() => setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Text })}
         />
         <ToolButton
           label="Sticky note"
           icon={StickyNote}
           isActive={
-            canvasState.mode === CanvasMode.Inseting && canvasState.layerType === LayerType.Note
+            canvasState.mode === CanvasMode.Inserting && canvasState.layerType === LayerType.Note
           }
-          onClick={() => setCanvasState({ mode: CanvasMode.Inseting, layerType: LayerType.Note })}
+          onClick={() => setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Note })}
         />
         <ToolButton
           label="Rectangle"
           icon={Square}
           isActive={
-            canvasState.mode === CanvasMode.Inseting &&
+            canvasState.mode === CanvasMode.Inserting &&
             canvasState.layerType === LayerType.Rectangle
           }
           onClick={() =>
-            setCanvasState({ mode: CanvasMode.Inseting, layerType: LayerType.Rectangle })
+            setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Rectangle })
           }
         />
         <ToolButton
           label="Ellipse"
           icon={Circle}
           isActive={
-            canvasState.mode === CanvasMode.Inseting && canvasState.layerType === LayerType.Ellipce
+            canvasState.mode === CanvasMode.Inserting && canvasState.layerType === LayerType.Ellipce
           }
           onClick={() =>
-            setCanvasState({ mode: CanvasMode.Inseting, layerType: LayerType.Ellipce })
+            setCanvasState({ mode: CanvasMode.Inserting, layerType: LayerType.Ellipce })
           }
         />
         <ToolButton

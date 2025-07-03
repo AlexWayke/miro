@@ -26,7 +26,7 @@ export const Cursor = memo(({ connectionId }: CursorProps) => {
       className="relative drop-shadow-md"
     >
       <MousePointer2 className="h-5 w-5" />
-      <div className="absolute left-5 px-1.5 py-0.5 tounded-md text-xs font-semibold text-black">
+      <div className="absolute left-5 px-1.5 py-0.5 tounded-md text-xs font-semibold text-white bg-black rounded-md">
         {name}
       </div>
     </foreignObject>

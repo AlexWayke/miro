@@ -105,7 +105,7 @@ export type CanvasState =
       current: Point;
     }
   | {
-      mode: CanvasMode.Inseting;
+      mode: CanvasMode.Inserting;
       layerType: LayerType.Ellipce | LayerType.Note | LayerType.Text | LayerType.Rectangle;
     }
   | {
@@ -122,7 +122,7 @@ export enum CanvasMode {
   Pressing,
   SelectionNet,
   Translating,
-  Inseting,
+  Inserting,
   Resizing,
   Pencil,
 }
