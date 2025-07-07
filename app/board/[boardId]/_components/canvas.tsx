@@ -18,7 +18,11 @@ import {
 } from '@/types/canvas';
 import { CursorsPresence } from './cursors-presence';
 import { nanoid } from 'nanoid';
-import { pointerEventToCanvasPoint, resizeBounds } from '@/lib/utils';
+import {
+  findIntersectingLayersWithRectangle,
+  pointerEventToCanvasPoint,
+  resizeBounds,
+} from '@/lib/utils';
 import { LiveObject } from '@liveblocks/client';
 import { LayerPreview } from './layerPreview';
 import { SelectionBox } from './selection-box';
@@ -80,6 +84,32 @@ export const Canvas = ({ boardId }: CanvasProps) => {
   const unselectLayers = useMutation(({ self, setMyPresence }) => {
     if (self.presence.selection!.length > 0) {
       setMyPresence({ selection: [] }, { addToHistory: true });
+    }
+  }, []);
+
+  const updateSelectionNet = useMutation(
+    ({ storage, setMyPresence }, current: Point, origin: Point) => {
+      const layers = storage.get('layers').toImmutable();
+      setCanvasState({
+        mode: CanvasMode.SelectionNet,
+        origin,
+        current,
+      });
+
+      const ids = findIntersectingLayersWithRectangle(layerIds!, layers, origin, current);
+
+      setMyPresence({ selection: ids });
+    },
+    [layerIds],
+  );
+
+  const startMultiselection = useCallback((current: Point, origin: Point) => {
+    if (Math.abs(current.x - origin.x) + Math.abs(current.y - origin.y) > 5) {
+      setCanvasState({
+        mode: CanvasMode.SelectionNet,
+        origin,
+        current,
+      });
     }
   }, []);
 
@@ -156,7 +186,11 @@ export const Canvas = ({ boardId }: CanvasProps) => {
       e.preventDefault();
       const current = pointerEventToCanvasPoint(e, camera);
 
-      if (canvasState.mode === CanvasMode.Translating) {
+      if (canvasState.mode === CanvasMode.Pressing) {
+        startMultiselection(current, canvasState.origin);
+      } else if (canvasState.mode === CanvasMode.SelectionNet) {
+        updateSelectionNet(current, canvasState.origin);
+      } else if (canvasState.mode === CanvasMode.Translating) {
         translateSelectedLayers(current);
       } else if (canvasState.mode === CanvasMode.Resizing) {
         resizeSelectedLayer(current);
@@ -181,6 +215,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     },
     [camera, canvasState.mode, setCanvasState],
   );
+
   const onPointerUp = useMutation(
     ({}, e) => {
       const point = pointerEventToCanvasPoint(e, camera);
