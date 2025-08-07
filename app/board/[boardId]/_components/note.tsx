@@ -1,24 +1,24 @@
-import { cn, colorToCss } from '@/lib/utils';
-import { TextLayer } from '@/types/canvas';
+import { cn, colorToCss, getContrastingTextColor } from '@/lib/utils';
+import { NoteLayer } from '@/types/canvas';
 import { useMutation } from '@liveblocks/react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 
-interface TextProps {
+interface NoteProps {
   id: string;
-  layer: TextLayer;
+  layer: NoteLayer;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
   selectionColor?: string;
 }
 
 const calculateFontSize = (width: number, height: number) => {
   const maxFontSize = 96;
-  const scaleFactor = 0.5;
+  const scaleFactor = 0.15;
   const fontSizeBasedOnHeight = height * scaleFactor;
   const fontSizeBasedOnWidth = width * scaleFactor;
   return Math.min(fontSizeBasedOnHeight, fontSizeBasedOnWidth, maxFontSize);
 };
 
-export const Text = ({ id, layer, onPointerDown, selectionColor }: TextProps) => {
+export const Note = ({ id, layer, onPointerDown, selectionColor }: NoteProps) => {
   const { x, y, width, height, fill, value } = layer;
 
   const updateValue = useMutation(({ storage }, newValue: string) => {
@@ -38,16 +38,18 @@ export const Text = ({ id, layer, onPointerDown, selectionColor }: TextProps) =>
       height={height}
       width={width}
       onPointerDown={(e) => onPointerDown(e, id)}
-      style={{ outline: selectionColor ? `1px solid ${selectionColor}` : 'none' }}
+      style={{
+        outline: selectionColor ? `1px solid ${selectionColor}` : 'none',
+        backgroundColor: fill ? colorToCss(fill) : '#ccc',
+      }}
+      className="shadow-md drop-shadow-xl"
     >
       <ContentEditable
         html={value || 'Text'}
         onChange={handleContentChange}
-        className={cn(
-          'h-full w-full flex items-center justify-center text-center drop-shadow-md outline-none',
-        )}
+        className={cn('h-full w-full flex items-center justify-center text-center outline-none')}
         style={{
-          color: fill ? colorToCss(fill) : '#000',
+          color: fill ? getContrastingTextColor(fill) : '#000',
           fontSize: calculateFontSize(width, height),
         }}
       />

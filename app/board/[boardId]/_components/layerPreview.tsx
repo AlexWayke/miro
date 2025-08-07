@@ -6,6 +6,7 @@ import { memo } from 'react';
 import { Rectangle } from './rectangle';
 import { Ellipse } from './ellipse';
 import { Text } from './text';
+import { Note } from './note';
 
 interface LayerPreviewProps {
   id: string;
@@ -22,6 +23,15 @@ export const LayerPreview = memo(
     }
 
     switch (layer.type) {
+      case LayerType.Path:
+        return (
+          <Path
+            id={id}
+            points={layer.points}
+            onPointerDown={onLayerPointerDown}
+            selectionColor={selectionColor}
+          />
+        );
       case LayerType.Ellipse:
         return (
           <Ellipse
@@ -34,6 +44,15 @@ export const LayerPreview = memo(
       case LayerType.Text:
         return (
           <Text
+            id={id}
+            layer={layer}
+            onPointerDown={onLayerPointerDown}
+            selectionColor={selectionColor}
+          />
+        );
+      case LayerType.Note:
+        return (
+          <Note
             id={id}
             layer={layer}
             onPointerDown={onLayerPointerDown}

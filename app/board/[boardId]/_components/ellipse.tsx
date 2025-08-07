@@ -12,7 +12,9 @@ export const Ellipse = ({ id, layer, onPointerDown, selectionColor }: EllipsePro
   return (
     <ellipse
       className="drop-shadow-md"
-      onPointerDown={(e) => onPointerDown(e, id)}
+      onPointerDown={(e) => {
+        onPointerDown(e, id);
+      }}
       style={{
         transform: `translate(
     ${layer.x}px,
