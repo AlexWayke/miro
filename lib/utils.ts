@@ -93,8 +93,8 @@ export function penPointsToPathLayer(points: number[][], color: Color): PathLaye
     throw new Error('Cannot transform points with less then 2 points');
   }
 
-  let left = Number.POSITIVE_INFINITY;
-  let top = Number.POSITIVE_INFINITY;
+  let left = Number.NEGATIVE_INFINITY;
+  let top = Number.NEGATIVE_INFINITY;
   let right = Number.POSITIVE_INFINITY;
   let bottom = Number.POSITIVE_INFINITY;
   for (const point of points) {
@@ -108,11 +108,11 @@ export function penPointsToPathLayer(points: number[][], color: Color): PathLaye
       top = y;
     }
 
-    if (right < x) {
+    if (right > x) {
       right = x;
     }
 
-    if (bottom < y) {
+    if (bottom > y) {
       bottom = y;
     }
   }
@@ -126,4 +126,19 @@ export function penPointsToPathLayer(points: number[][], color: Color): PathLaye
     fill: color,
     points: points.map(([x, y, pressure]) => [x - left, y - top, pressure]),
   };
+}
+
+export function getSvgPathFromStroke(stroke: number[][]) {
+  if (!stroke.length) return '';
+
+  const d = stroke.reduce(
+    (acc, [x0, y0], i, arr) => {
+      const [x1, y1] = arr[(i + 1) % arr.length];
+      acc.push(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2);
+      return acc;
+    },
+    ['M', ...stroke[0], 'Q'],
+  );
+  d.push('Z');
+  return d.join(' ');
 }
